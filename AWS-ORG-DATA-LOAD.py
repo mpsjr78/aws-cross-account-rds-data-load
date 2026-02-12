@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 #  GENERAL CONFIGURATION
 # ==============================================================================
 
-ROLE_NAME = "CUST_REQ_DBA_AUDIT"
+ROLE_NAME = "CUST_DBA_AUDIT"
 TARGET_REGION = os.environ.get('AWS_REGION', 'us-east-1')
 
 # --- MAIN REPOSITORY CONFIGURATION (AURORA POSTGRESQL) ---
@@ -30,9 +30,9 @@ TARGET_ACCOUNTS = [
 
 # Ignore list for RDS names that not be scanned (Blacklist)
 BLACKLIST_RDS = [
-    "db-req-sd-nifi-instance-1",
-    "db-essilor-prd",
-    "db-req-dev1-s3",
+    "db-1",
+    "db-2",
+    "db-3",
 ]
 
 logger = logging.getLogger()
@@ -73,7 +73,7 @@ def assume_role(account_id, role_name):
             region_name=TARGET_REGION
         )
     except Exception as e:
-        logger.error(f"[ERRO] Assume Role failed on {account_id}: {e}")
+        logger.error(f"[ERROR] Assume Role failed on {account_id}: {e}")
         return None
 
 def get_secret_local(local_client, secret_name):
